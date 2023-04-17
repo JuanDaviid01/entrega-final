@@ -2,8 +2,6 @@ package co.edu.umanizales.tads.model;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class ListSE {
     private Node head;
