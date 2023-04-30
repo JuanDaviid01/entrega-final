@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1405235b-a0ae-4208-83ed-1622531fc282" name="Changes" comment="" />
+    <list default="true" id="1405235b-a0ae-4208-83ed-1622531fc282" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tads-master2/src/main/java/co/edu/umanizales/tads/model/ListSE.java" beforeDir="false" afterPath="$PROJECT_DIR$/../tads-master2/src/main/java/co/edu/umanizales/tads/model/ListSE.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,7 +41,12 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Personal/programacion/entregables/entrega-final/manage_store-main",
+    "last_opened_file_path": "C:/Personal/programacion/entrega-final/tads-master2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "spring.configuration.checksum": "e51563aeca203dc9f7813fb069cad99b",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -60,6 +68,8 @@
       <option name="presentableId" value="Default" />
       <updated>1681769379968</updated>
       <workItem from="1681769382316" duration="136000" />
+      <workItem from="1682021588863" duration="690000" />
+      <workItem from="1682038783481" duration="253000" />
     </task>
     <servers />
   </component>

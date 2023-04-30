@@ -18,7 +18,7 @@ public class ListSE {
         } else {
             head = new Node(kid);
         }
-    }
+    }//fin añadir
 
     public void addToStart(Kid kid) {
         if (head != null) {
@@ -28,56 +28,7 @@ public class ListSE {
         } else {
             head = new Node(kid);
         }
-    }
-
-    public void removeById(String id) {
-        if (head != null) {
-            Node temp = head;
-            if (head.getData().getIdentification().equals(id)) {
-                head = head.getNext();
-            } else {
-                while (!temp.getNext().getData().getIdentification().equals(id)) {
-                    temp = temp.getNext();
-                }
-                temp.setNext(temp.getNext().getNext());
-            }
-        }
-    }
-
-    public void addxPos(Kid kid, int pos) {
-        if (head != null) {
-            Node temp = head;
-            int cont = 1;
-            while (cont < pos - 1) {
-                temp = temp.getNext();
-                cont = cont + 1;
-            }
-            Node newNode = new Node(kid);
-            newNode.setNext(temp.getNext());
-            temp.setNext(newNode);
-        } else {
-            head = new Node(kid);
-        }
-    }
-
-    public float promAgeKids() {
-        float prom = 0;
-        if (head != null) {
-            Node temp = head;
-            float cont = 1;
-            float sum = temp.getData().getAge();
-            while (temp.getNext() != null) {
-                temp = temp.getNext();
-                cont = cont + 1;
-                sum = sum + temp.getData().getAge();
-            }
-            prom = sum / cont;
-        }//fin if
-        return prom;
-    }// fin metodo promedio de edad
-
-
-    //------------Metodos Extra-------------
+    }//fin añadir al principio
 
     public Boolean searchById(String id) {
         Boolean finded = false;
@@ -97,6 +48,48 @@ public class ListSE {
         }
         return finded;
     }//fin buscar por id
+
+    public void removeById(String id) {
+        if (head != null) {
+            Node temp = head;
+            if (head.getData().getIdentification().equals(id)) {
+                head = head.getNext();
+            } else {
+                while (!temp.getNext().getData().getIdentification().equals(id)) {
+                    temp = temp.getNext();
+                }
+                temp.setNext(temp.getNext().getNext());
+            }
+        }
+    }//fin eliminar por ID
+
+    public void addxPos(Kid kid, int pos) {
+        if (head != null) {
+            Node temp = head;
+            int cont = 1;
+            while (cont < pos - 1) {
+                temp = temp.getNext();
+                cont = cont + 1;
+            }
+            Node newNode = new Node(kid);
+            newNode.setNext(temp.getNext());
+            temp.setNext(newNode);
+        } else {
+            head = new Node(kid);
+        }
+    }//fin añadir por posicion
+
+    public void invertExtremes() {
+        if (head != null && this.head.getNext() != null) {
+            Node temp = head;
+            while (temp.getNext() != null) {
+                temp = temp.getNext();
+            }
+            Kid headCopy = this.getHead().getData();
+            head.setData(temp.getData());
+            temp.setData(headCopy);
+        }
+    }//fin metodo para invertir extremos
 
     public void invert() {
         ListSE invertListSE = new ListSE();
@@ -126,31 +119,21 @@ public class ListSE {
         }
     }//fin ordenar primero los niños
 
-    public ListSE orderByNameAtTheEnd(String letter) {
-        ListSE orderListSE = new ListSE();
+    public float promAgeKids() {
+        float prom = 0;
         if (head != null) {
             Node temp = head;
-            while (temp.getData() != null) {
-                if (letter.equalsIgnoreCase(String.valueOf(temp.getData().getName().charAt(0)))) {
-                    orderListSE.add(temp.getData());
-                } else {
-                    orderListSE.addToStart(temp.getData());
-                }
-            }
-        }
-        return orderListSE;
-    }// fin metodo para ordenar por la inicial del nombre      no supe meterlo a postman :(
-    public void invertExtremes() {
-        if (head != null && this.head.getNext() != null) {
-            Node temp = head;
+            float cont = 1;
+            float sum = temp.getData().getAge();
             while (temp.getNext() != null) {
                 temp = temp.getNext();
+                cont = cont + 1;
+                sum = sum + temp.getData().getAge();
             }
-            Kid headCopy = this.getHead().getData();
-            head.setData(temp.getData());
-            temp.setData(headCopy);
-        }
-    }//fin metodo para invertir extremos
+            prom = sum / cont;
+        }//fin if
+        return prom;
+    }// fin metodo promedio de edad
 
     public int getCountKidsInCitiesByLocationCode(String code) {
         int count = 0;
@@ -180,4 +163,35 @@ public class ListSE {
         return count;
     }//fin cantidad de niños por departamento
 
-}//fin kid
+    public ListSE orderByNameAtTheEnd(String letter) {
+        ListSE orderListSE = new ListSE();
+        if (head != null) {
+            Node temp = head;
+            while (temp.getData() != null) {
+                if (temp.getData().getName().startsWith(letter)) {
+                    orderListSE.add(temp.getData());
+                } else {
+                    orderListSE.addToStart(temp.getData());
+                }
+            }
+        }
+        return orderListSE;
+    }// fin ordenar por la inicial del nombre
+
+    public void advanceXPos(int pos, String code) {
+        if (head != null) {
+            Node temp = head;
+            int posList = 1;
+            if (!head.getData().getIdentification().equals(code)) {
+                while (temp.getNext() != null) {
+                    temp = temp.getNext();
+                    if(temp.getData().getIdentification().equals(code)){
+                        Node copyKid = temp.getNext();
+
+                    }
+                }//fin while
+            }  //else la cabeza es el niño buscado
+        }//fin if headNull
+    }//fin avanzar ciertas posiciones
+
+}//fin listSE
