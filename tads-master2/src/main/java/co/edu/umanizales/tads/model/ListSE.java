@@ -1,16 +1,25 @@
 package co.edu.umanizales.tads.model;
 
+import co.edu.umanizales.tads.controller.dto.ReportKidsLocationGenderDTO;
+import co.edu.umanizales.tads.exception.ListSEException;
 import lombok.Data;
 
 @Data
 public class ListSE {
     private Node head;
+    private int size;
 
-    public void add(Kid kid) {
+    public void add(Kid kid) throws ListSEException {
         if (head != null) {
             Node temp = head;
             while (temp.getNext() != null) {
+                if (temp.getData().getIdentification().equals(kid.getIdentification())) {
+                    throw new ListSEException("Ya existe un niño");
+                }
                 temp = temp.getNext();
+            }
+            if (temp.getData().getIdentification().equals(kid.getIdentification())) {
+                throw new ListSEException("Ya existe un niño");
             }
             /// Parado en el último
             Node newNode = new Node(kid);
@@ -18,7 +27,8 @@ public class ListSE {
         } else {
             head = new Node(kid);
         }
-    }//fin añadir
+        size++;
+    }//fin añadir niño
 
     public void addToStart(Kid kid) {
         if (head != null) {
@@ -28,7 +38,40 @@ public class ListSE {
         } else {
             head = new Node(kid);
         }
+        size++;
     }//fin añadir al principio
+
+    public void addxPos(Kid kid, int pos) {
+        if (head != null) {
+            Node temp = head;
+            int cont = 1;
+            while (cont < pos - 1) {
+                temp = temp.getNext();
+                cont = cont + 1;
+            }
+            Node newNode = new Node(kid);
+            newNode.setNext(temp.getNext());
+            temp.setNext(newNode);
+        } else {
+            head = new Node(kid);
+        }
+        size++;
+    }//fin añadir por posicion
+
+    public void removeById(String id) {
+        if (head != null) {
+            Node temp = head;
+            if (head.getData().getIdentification().equals(id)) {
+                head = head.getNext();
+            } else {
+                while (!temp.getNext().getData().getIdentification().equals(id)) {
+                    temp = temp.getNext();
+                }
+                temp.setNext(temp.getNext().getNext());
+            }
+        }
+        size--;
+    }//fin eliminar por ID
 
     public Boolean searchById(String id) {
         Boolean finded = false;
@@ -49,36 +92,6 @@ public class ListSE {
         return finded;
     }//fin buscar por id
 
-    public void removeById(String id) {
-        if (head != null) {
-            Node temp = head;
-            if (head.getData().getIdentification().equals(id)) {
-                head = head.getNext();
-            } else {
-                while (!temp.getNext().getData().getIdentification().equals(id)) {
-                    temp = temp.getNext();
-                }
-                temp.setNext(temp.getNext().getNext());
-            }
-        }
-    }//fin eliminar por ID
-
-    public void addxPos(Kid kid, int pos) {
-        if (head != null) {
-            Node temp = head;
-            int cont = 1;
-            while (cont < pos - 1) {
-                temp = temp.getNext();
-                cont = cont + 1;
-            }
-            Node newNode = new Node(kid);
-            newNode.setNext(temp.getNext());
-            temp.setNext(newNode);
-        } else {
-            head = new Node(kid);
-        }
-    }//fin añadir por posicion
-
     public void invertExtremes() {
         if (head != null && this.head.getNext() != null) {
             Node temp = head;
@@ -89,7 +102,7 @@ public class ListSE {
             head.setData(temp.getData());
             temp.setData(headCopy);
         }
-    }//fin metodo para invertir extremos
+    }//fin invertir extremos
 
     public void invert() {
         ListSE invertListSE = new ListSE();
@@ -100,12 +113,12 @@ public class ListSE {
                 temp.getNext();
             }
         }
-    }// fin metodo para invertir la lista
+    }// fin invertir la lista
 
-    public void orderBoysToStart() {
-        if (this.head != null) {
+    public void orderBoysToStart() throws ListSEException {
+        if (head != null) {
             ListSE listCp = new ListSE();
-            Node temp = this.head;
+            Node temp = head;
             while (temp != null) {
                 if (temp.getData().getGender() == 'M') {
                     listCp.addToStart(temp.getData());
@@ -118,6 +131,47 @@ public class ListSE {
             this.head = listCp.getHead();
         }
     }//fin ordenar primero los niños
+
+    public void orderBoysAndGirls() throws ListSEException {
+        if (head != null) {
+            ListSE listCopGirls = new ListSE();
+            Node temp = head;
+            int pos = 1;
+            while (temp.getData() != null) {
+                if (temp.getData().getGender() == 'F') {
+                    listCopGirls.add(temp.getData());
+                    temp = temp.getNext();
+                }
+            }//while lista copia
+            while (temp.getData() != null) {
+                if (pos % 2 != 0) {
+
+                }
+                temp = temp.getNext();
+                pos = pos + 1;
+            }
+        }//if null
+    }//fin intercalar niño, niña
+
+    public void removeKidByAge(Byte ageI) {
+        if (head != null) {
+            int count = 0;
+            Node temp = head;
+            while (temp.getNext() != null) {
+                if (head.getData().getAge() == ageI) {
+                    head = head.getNext();
+                    count = count + 1;
+                } else {
+                    while (temp.getNext().getData().getAge() != ageI) {
+                        temp = temp.getNext();
+                    }//fin while nextAge
+                    temp.setNext(temp.getNext().getNext());
+                    count = count + 1;
+                }//else if
+            }//fin while data null
+            size = size - count;
+        }// if null
+    }//eliminar niños por la edad
 
     public float promAgeKids() {
         float prom = 0;
@@ -133,7 +187,23 @@ public class ListSE {
             prom = sum / cont;
         }//fin if
         return prom;
-    }// fin metodo promedio de edad
+    }// fin promedio de edad
+
+    public void advanceXPos(int pos, String code) {
+        if (head != null) {
+            Node temp = head;
+            int posList = 1;
+            if (!head.getData().getIdentification().equals(code)) {
+                while (temp.getNext() != null) {
+                    temp = temp.getNext();
+                    if (temp.getData().getIdentification().equals(code)) {
+                        Node copyKid = temp.getNext();
+
+                    }
+                }//fin while
+            }  //else la cabeza es el niño buscado
+        }//fin if headNull
+    }//fin avanzar ciertas posiciones
 
     public int getCountKidsInCitiesByLocationCode(String code) {
         int count = 0;
@@ -163,7 +233,7 @@ public class ListSE {
         return count;
     }//fin cantidad de niños por departamento
 
-    public ListSE orderByNameAtTheEnd(String letter) {
+    public void orderByNameAtTheEnd(String letter) throws ListSEException {
         ListSE orderListSE = new ListSE();
         if (head != null) {
             Node temp = head;
@@ -175,23 +245,20 @@ public class ListSE {
                 }
             }
         }
-        return orderListSE;
     }// fin ordenar por la inicial del nombre
 
-    public void advanceXPos(int pos, String code) {
+    public void getReportKidsByLocationGendersByAge(byte age, ReportKidsLocationGenderDTO report) {
         if (head != null) {
-            Node temp = head;
-            int posList = 1;
-            if (!head.getData().getIdentification().equals(code)) {
-                while (temp.getNext() != null) {
-                    temp = temp.getNext();
-                    if(temp.getData().getIdentification().equals(code)){
-                        Node copyKid = temp.getNext();
-
-                    }
-                }//fin while
-            }  //else la cabeza es el niño buscado
-        }//fin if headNull
-    }//fin avanzar ciertas posiciones
+            Node temp = this.head;
+            while (temp != null) {
+                if (temp.getData().getAge() > age) {
+                    report.updateQuantity(
+                            temp.getData().getLocation().getName(),
+                            temp.getData().getGender());
+                }
+                temp = temp.getNext();
+            }
+        }
+    }//fin reporte por ciudad por genero
 
 }//fin listSE

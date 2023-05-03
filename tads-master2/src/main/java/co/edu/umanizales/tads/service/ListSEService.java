@@ -1,5 +1,6 @@
 package co.edu.umanizales.tads.service;
 
+import co.edu.umanizales.tads.exception.ListSEException;
 import co.edu.umanizales.tads.model.*;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,12 @@ public class ListSEService {
         return kids.promAgeKids();
     }
 
-    public void orderByName(String code){
+    public void orderByNameAtTheEnd(String code) throws ListSEException {
         kids.orderByNameAtTheEnd(code);
     }
 
-
-
-
-
+    public void orderBoysToStart() throws ListSEException {
+        kids.orderBoysToStart();
+    }
 
 }
