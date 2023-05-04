@@ -41,5 +41,7 @@ public class ListSEService {
     public void advanceXPos(int pos, String code) throws ListSEException {
         kids.advanceXPos(pos, code);
     }
-
+    public void loseXPos(int pos, String code) throws ListSEException {
+        kids.loseXPos(pos, code);
+    }
 }

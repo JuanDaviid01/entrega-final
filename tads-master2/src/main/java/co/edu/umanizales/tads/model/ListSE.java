@@ -13,12 +13,12 @@ public class ListSE {
         if (head != null) {
             Node temp = head;
             while (temp.getNext() != null) {
-                if (temp.getData().getIdentification().equals(kid.getIdentification())) {
+                if (temp.getData().getId().equals(kid.getId())) {
                     throw new ListSEException("Ya existe un niño");
                 }
                 temp = temp.getNext();
             }
-            if (temp.getData().getIdentification().equals(kid.getIdentification())) {
+            if (temp.getData().getId().equals(kid.getId())) {
                 throw new ListSEException("Ya existe un niño");
             }
             /// Parado en el último
@@ -41,33 +41,6 @@ public class ListSE {
         size++;
     }//fin añadir al principio
 
-    public int getPostbyId(String id) {
-        Node temp = head;
-        int acum = 0;
-        if (head != null) {
-            while (temp != null && !temp.getData().getIdentification().equals(id)) {
-                acum = acum + 1;
-                temp = temp.getNext();
-                return acum;
-            }
-        }
-        return acum;
-    }
-
-    public Kid getKidById(String id) {
-        Node temp = head;
-        if (head != null) {
-            while (temp.getNext() != null) {
-                while (!temp.getData().getIdentification().equals(id)) {
-                    temp = temp.getNext();
-                }
-            }
-            temp.getData();
-        }
-        Kid kid = new Kid(temp.getData().getIdentification(), temp.getData().getName(), temp.getData().getAge(), temp.getData().getGender(), temp.getData().getLocation());
-        return kid;
-    }
-
     public void addxPos(Kid kid, int pos) {
         if (head != null) {
             Node temp = head;
@@ -88,10 +61,10 @@ public class ListSE {
     public void removeById(String id) {
         if (head != null) {
             Node temp = head;
-            if (head.getData().getIdentification().equals(id)) {
+            if (head.getData().getId().equals(id)) {
                 head = head.getNext();
             } else {
-                while (!temp.getNext().getData().getIdentification().equals(id)) {
+                while (!temp.getNext().getData().getId().equals(id)) {
                     temp = temp.getNext();
                 }
                 temp.setNext(temp.getNext().getNext());
@@ -104,10 +77,10 @@ public class ListSE {
         Boolean finded = false;
         if (head != null) {
             Node temp = head;
-            if (!head.getData().getIdentification().equals(id)) { //valida la cabeza
+            if (!head.getData().getId().equals(id)) { //valida la cabeza
                 while (temp.getNext() != null) {
                     temp = temp.getNext();
-                    if (!temp.getData().getIdentification().equals(id)) { //valida la posicion en la que estamos
+                    if (!temp.getData().getId().equals(id)) { //valida la posicion en la que estamos
                     } else {
                         finded = true;
                     }
@@ -178,11 +151,11 @@ public class ListSE {
             while (tempB != null || tempG != null) {
                 if (tempB != null) {
                     listCopFinal.add(tempB.getData());
-                    tempB =tempB.getNext();
+                    tempB = tempB.getNext();
                 }
                 if (tempG != null) {
                     listCopFinal.add(tempG.getData());
-                    tempG =tempG.getNext();
+                    tempG = tempG.getNext();
                 }
             }
             head = listCopFinal.getHead();
@@ -226,20 +199,48 @@ public class ListSE {
     }// fin promedio de edad
 
     public void advanceXPos(int pos, String code) throws ListSEException {
-        Node temp = head;
-        int posList = 0;
+        Node temp = this.head;
+        int posList = 1;
         ListSE listcop = new ListSE();
         if (head != null) {
-            while (temp!= null) {
-                if (!temp.getData().getIdentification().equalsIgnoreCase(code)) {
+            while (temp != null) {
+                if (!temp.getData().getId().equalsIgnoreCase(code)) {
                     listcop.add(temp.getData());
                     temp = temp.getNext();
+                    posList = posList + 1;
                 } else {
-                    temp = temp.getNext();
+                    listcop.addToStart(temp.getData());
+                    Kid kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList - pos;
+                    listcop.addxPos(kidCop, posFinal);
                 }//fin else
             }//fin while
-        }//fin if headNull-
-    }//fin avanzar ciertas posiciones
+        }//fin if headNull
+        this.head = listcop.getHead();
+    }//fin avanzar posiciones
+
+    public void loseXPos(int pos, String code) throws ListSEException {
+        Node temp = this.head;
+        int posList = 1;
+        ListSE listcop = new ListSE();
+        if (head != null) {
+            while (temp != null) {
+                if (!temp.getData().getId().equalsIgnoreCase(code)) {
+                    listcop.add(temp.getData());
+                    temp = temp.getNext();
+                    posList = posList + 1;
+                } else {
+                    listcop.addToStart(temp.getData());
+                    Kid kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList + pos;
+                    listcop.addxPos(kidCop, posFinal);
+                }//fin else
+            }//fin while
+        }//fin if headNull
+        this.head = listcop.getHead();
+    }//fin perder posiciones
 
     public int getCountKidsInCitiesByLocationCode(String code) {
         int count = 0;
@@ -299,6 +300,5 @@ public class ListSE {
 
 }//fin listSE
 /*
-8. Método que me permita decirle a un niño determinado que pierda un numero de posiciones dadas
 9. Obtener un informe de niños por rango de edades
  */

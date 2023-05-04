@@ -7,7 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Kid {
 
-    private String identification;
+    private String id;
     private String name;
     private byte age;
 
