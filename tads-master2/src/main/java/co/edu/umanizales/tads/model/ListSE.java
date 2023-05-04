@@ -41,6 +41,33 @@ public class ListSE {
         size++;
     }//fin añadir al principio
 
+    public int getPostbyId(String id) {
+        Node temp = head;
+        int acum = 0;
+        if (head != null) {
+            while (temp != null && !temp.getData().getIdentification().equals(id)) {
+                acum = acum + 1;
+                temp = temp.getNext();
+                return acum;
+            }
+        }
+        return acum;
+    }
+
+    public Kid getKidById(String id) {
+        Node temp = head;
+        if (head != null) {
+            while (temp.getNext() != null) {
+                while (!temp.getData().getIdentification().equals(id)) {
+                    temp = temp.getNext();
+                }
+            }
+            temp.getData();
+        }
+        Kid kid = new Kid(temp.getData().getIdentification(), temp.getData().getName(), temp.getData().getAge(), temp.getData().getGender(), temp.getData().getLocation());
+        return kid;
+    }
+
     public void addxPos(Kid kid, int pos) {
         if (head != null) {
             Node temp = head;
@@ -135,25 +162,34 @@ public class ListSE {
     public void orderBoysAndGirls() throws ListSEException {
         if (head != null) {
             ListSE listCopGirls = new ListSE();
+            ListSE listCopboys = new ListSE();
+            ListSE listCopFinal = new ListSE();
             Node temp = head;
-            int pos = 1;
-            while (temp.getData() != null) {
+            while (temp != null) {
                 if (temp.getData().getGender() == 'F') {
                     listCopGirls.add(temp.getData());
-                    temp = temp.getNext();
-                }
-            }//while lista copia
-            while (temp.getData() != null) {
-                if (pos % 2 != 0) {
-
+                } else {
+                    listCopboys.add(temp.getData());
                 }
                 temp = temp.getNext();
-                pos = pos + 1;
+            }//while lista copia
+            Node tempB = listCopboys.getHead();
+            Node tempG = listCopGirls.getHead();
+            while (tempB != null || tempG != null) {
+                if (tempB != null) {
+                    listCopFinal.add(tempB.getData());
+                    tempB =tempB.getNext();
+                }
+                if (tempG != null) {
+                    listCopFinal.add(tempG.getData());
+                    tempG =tempG.getNext();
+                }
             }
+            head = listCopFinal.getHead();
         }//if null
-    }//fin intercalar niño, niña
+    }//fin intercalar niño niña
 
-    public void removeKidByAge(Byte ageI) {
+    public void removeKidsByAge(Byte ageI) {
         if (head != null) {
             int count = 0;
             Node temp = head;
@@ -189,20 +225,20 @@ public class ListSE {
         return prom;
     }// fin promedio de edad
 
-    public void advanceXPos(int pos, String code) {
+    public void advanceXPos(int pos, String code) throws ListSEException {
+        Node temp = head;
+        int posList = 0;
+        ListSE listcop = new ListSE();
         if (head != null) {
-            Node temp = head;
-            int posList = 1;
-            if (!head.getData().getIdentification().equals(code)) {
-                while (temp.getNext() != null) {
+            while (temp!= null) {
+                if (!temp.getData().getIdentification().equalsIgnoreCase(code)) {
+                    listcop.add(temp.getData());
                     temp = temp.getNext();
-                    if (temp.getData().getIdentification().equals(code)) {
-                        Node copyKid = temp.getNext();
-
-                    }
-                }//fin while
-            }  //else la cabeza es el niño buscado
-        }//fin if headNull
+                } else {
+                    temp = temp.getNext();
+                }//fin else
+            }//fin while
+        }//fin if headNull-
     }//fin avanzar ciertas posiciones
 
     public int getCountKidsInCitiesByLocationCode(String code) {
@@ -262,3 +298,7 @@ public class ListSE {
     }//fin reporte por ciudad por genero
 
 }//fin listSE
+/*
+8. Método que me permita decirle a un niño determinado que pierda un numero de posiciones dadas
+9. Obtener un informe de niños por rango de edades
+ */

@@ -62,9 +62,19 @@ public class ListSEController {
         return new ResponseEntity<>(new ResponseDTO(200, "Se  pusieron a los niños adelante", null), HttpStatus.OK);
     }
 
+    @GetMapping("/order_boys_and_girls")
+    public ResponseEntity<ResponseDTO> orderBoysAndGirls() throws ListSEException {
+        listSEService.orderBoysAndGirls();
+        return new ResponseEntity<>(new ResponseDTO(200, "se intercalaron a los niños y a las niñas...", null), HttpStatus.OK);
+    }
+    @GetMapping(path = "/advance_positions/{pos}/{code}")
+    public ResponseEntity<ResponseDTO> advanceXPos(@PathVariable int pos, String code) throws ListSEException {
+        listSEService.advanceXPos(pos, code);
+        return new ResponseEntity<>(new ResponseDTO(200, "el niño a avanzado posiciones correctamente", null), HttpStatus.OK);
+    }
     @GetMapping(path = "/remove_kid_by_age/{age}")
     public ResponseEntity<ResponseDTO> removeKidByAge(@PathVariable byte age) {
-        listSEService.getKids().removeKidByAge(age);
+        listSEService.getKids().removeKidsByAge(age);
         return new ResponseEntity<>(new ResponseDTO(200, "Se han eliminado a los niños con esa edad", null), HttpStatus.OK);
     }
 

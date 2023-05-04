@@ -17,6 +17,7 @@ public class ListSEService {
         kids = new ListSE();
 
     }
+
     public void invert() {
         kids.invert();
     }
@@ -31,6 +32,14 @@ public class ListSEService {
 
     public void orderBoysToStart() throws ListSEException {
         kids.orderBoysToStart();
+    }
+
+    public void orderBoysAndGirls() throws ListSEException {
+        kids.orderBoysAndGirls();
+    }
+
+    public void advanceXPos(int pos, String code) throws ListSEException {
+        kids.advanceXPos(pos, code);
     }
 
 }
