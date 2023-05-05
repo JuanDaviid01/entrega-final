@@ -1,7 +1,6 @@
 package co.edu.umanizales.tads.model;
 
 import co.edu.umanizales.tads.exception.ListDEException;
-import co.edu.umanizales.tads.exception.ListSEException;
 import lombok.Data;
 
 @Data
@@ -116,7 +115,7 @@ public class ListDE {
         }
     }// fin invertir la lista
 
-    public void orderBoysToStart() throws ListDEException {
+    public void orderMalesToStart() throws ListDEException {
         if (head != null) {
             ListDE listCp = new ListDE();
             NodeDE temp = head;
@@ -133,7 +132,7 @@ public class ListDE {
         }
     }//fin ordenar primero los niños
 
-    public void orderBoysAndGirls() throws ListDEException {
+    public void orderMalesAndFemales() throws ListDEException {
         if (head != null) {
             ListDE listCopGirls = new ListDE();
             ListDE listCopboys = new ListDE();
@@ -162,5 +161,130 @@ public class ListDE {
             head = listCopFinal.getHead();
         }//if null
     }//fin intercalar niño niña
+
+    public void removePetsByAge(Byte ageI) {
+        if (head != null) {
+            NodeDE temp = head;
+            if (head.getData().getAge() == ageI) {
+                head = head.getNext();
+                head.setPrevious(null);
+            } else {
+                while (temp != null) {
+                    while (temp.getData().getAge() != ageI) {
+                        temp = temp.getNext();
+                    }//fin while nextAge
+                    if (temp.getNext() != null) {
+                        temp.getPrevious().setNext(temp.getNext());
+                        temp.getNext().setPrevious(temp.getPrevious());
+                    } else {
+                        temp.getPrevious().setNext(null);
+                    }//else
+                    temp = temp.getNext();
+                }//else if
+            }//fin while data null
+        }// if null
+    }//eliminar niños por la edad
+
+    public float promAgePets() {
+        float prom = 0;
+        if (head != null) {
+            NodeDE temp = head;
+            float cont = 1;
+            float sum = temp.getData().getAge();
+            while (temp.getNext() != null) {
+                temp = temp.getNext();
+                cont = cont + 1;
+                sum = sum + temp.getData().getAge();
+            }
+            prom = sum / cont;
+        }//fin if
+        return prom;
+    }// fin promedio de edad
+
+    public void advanceXPos(int pos, String code) throws ListDEException {
+        NodeDE temp = this.head;
+        int posList = 1;
+        ListDE listcop = new ListDE();
+        if (head != null) {
+            while (temp != null) {
+                if (!temp.getData().getId().equalsIgnoreCase(code)) {
+                    listcop.add(temp.getData());
+                    temp = temp.getNext();
+                    posList = posList + 1;
+                } else {
+                    listcop.addToStart(temp.getData());
+                    Pet kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList - pos;
+                    listcop.addxPos(kidCop, posFinal);
+                }//fin else
+            }//fin while
+        }//fin if headNull
+        this.head = listcop.getHead();
+    }//fin avanzar posiciones
+
+    public void loseXPos(int pos, String code) throws ListDEException {
+        NodeDE temp = this.head;
+        int posList = 1;
+        ListDE listcop = new ListDE();
+        if (head != null) {
+            while (temp != null) {
+                if (!temp.getData().getId().equalsIgnoreCase(code)) {
+                    listcop.add(temp.getData());
+                    temp = temp.getNext();
+                    posList = posList + 1;
+                } else {
+                    listcop.addToStart(temp.getData());
+                    Pet kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList + pos;
+                    listcop.addxPos(kidCop, posFinal);
+                }//fin else
+            }//fin while
+        }//fin if headNull
+        this.head = listcop.getHead();
+    }//fin perder posiciones
+
+    public int getCountPetsInCitiesByLocationCode(String code) {
+        int count = 0;
+        if (this.head != null) {
+            NodeDE temp = this.head;
+            while (temp != null) {
+                if (temp.getData().getLocation().getCode().equals(code)) {
+                    count = count + 1;
+                }
+                temp = temp.getNext();
+            }
+        }
+        return count;
+    }//fin cantidad de niños por ciudad
+
+    public int getCountPetsInDepartmentsByLocationCode(String code) {
+        int count = 0;
+        if (this.head != null) {
+            NodeDE temp = this.head;
+            while (temp != null) {
+                if (temp.getData().getLocation().getCode().contains(code)) {
+                    count++;
+                }
+                temp = temp.getNext();
+            }
+        }
+        return count;
+    }//fin cantidad de niños por departamento
+
+    public void orderByNameAtTheEnd(String letter) throws ListDEException {
+        ListDE orderListDE = new ListDE();
+        if (head != null) {
+            NodeDE temp = head;
+            while (temp.getData() != null) {
+                if (temp.getData().getName().startsWith(letter)) {
+                    orderListDE.add(temp.getData());
+                } else {
+                    orderListDE.addToStart(temp.getData());
+                }
+            }
+        }
+    }// fin ordenar por la inicial del nombre
 
 }//fin listDE

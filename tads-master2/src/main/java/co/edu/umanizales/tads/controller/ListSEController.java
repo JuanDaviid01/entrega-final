@@ -68,6 +68,7 @@ public class ListSEController {
         listSEService.orderBoysAndGirls();
         return new ResponseEntity<>(new ResponseDTO(200, "se intercalaron a los niños y a las niñas...", null), HttpStatus.OK);
     }
+
     @GetMapping(path = "/advance_positions/{pos}/{code}")
     public ResponseEntity<ResponseDTO> advanceXPos(@PathVariable int pos, String code) throws ListSEException {
         listSEService.advanceXPos(pos, code);
@@ -79,6 +80,7 @@ public class ListSEController {
         listSEService.loseXPos(pos, code);
         return new ResponseEntity<>(new ResponseDTO(200, "el niño a perdido posiciones correctamente", null), HttpStatus.OK);
     }
+
     @GetMapping(path = "/remove_kid_by_age/{age}")
     public ResponseEntity<ResponseDTO> removeKidByAge(@PathVariable byte age) {
         listSEService.getKids().removeKidsByAge(age);

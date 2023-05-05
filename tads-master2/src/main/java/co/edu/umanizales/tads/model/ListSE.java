@@ -164,21 +164,17 @@ public class ListSE {
 
     public void removeKidsByAge(Byte ageI) {
         if (head != null) {
-            int count = 0;
             Node temp = head;
-            while (temp.getNext() != null) {
-                if (head.getData().getAge() == ageI) {
-                    head = head.getNext();
-                    count = count + 1;
-                } else {
+            if (head.getData().getAge() == ageI) {
+                head = head.getNext();
+            } else {
+                while (temp.getNext() != null) {
                     while (temp.getNext().getData().getAge() != ageI) {
                         temp = temp.getNext();
                     }//fin while nextAge
                     temp.setNext(temp.getNext().getNext());
-                    count = count + 1;
                 }//else if
             }//fin while data null
-            size = size - count;
         }// if null
     }//eliminar niños por la edad
 
