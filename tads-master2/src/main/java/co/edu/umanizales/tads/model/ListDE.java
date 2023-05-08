@@ -302,7 +302,9 @@ public class ListDE {
         if (head != null) {
             NodeDE temp = head;
             if (head.getData().getId().equals(id)) {
+                temp.getNext().setPrevious(null);
                 head = head.getNext();
+
             } else {
                 while (!temp.getData().getId().equals(id)) {
                     temp = temp.getNext();
@@ -312,6 +314,7 @@ public class ListDE {
                     temp.getNext().setPrevious(temp.getPrevious());
                 } else {
                     temp.getPrevious().setNext(null);
+                    temp.setPrevious(null);
                 }
             }
         }
