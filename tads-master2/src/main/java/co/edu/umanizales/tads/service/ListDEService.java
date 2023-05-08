@@ -2,8 +2,11 @@ package co.edu.umanizales.tads.service;
 
 import co.edu.umanizales.tads.exception.ListDEException;
 import co.edu.umanizales.tads.model.ListDE;
+import lombok.Data;
+import org.springframework.stereotype.Service;
 
-
+@Service
+@Data
 public class ListDEService {
     private ListDE pets;
 
@@ -28,7 +31,7 @@ public class ListDEService {
         pets.orderMalesToStart();
     }
 
-    public void orderMalesAndFemales() throws  ListDEException {
+    public void orderMalesAndFemales() throws ListDEException {
         pets.orderMalesAndFemales();
     }
 
@@ -39,4 +42,9 @@ public class ListDEService {
     public void loseXPos(int pos, String code) throws ListDEException {
         pets.loseXPos(pos, code);
     }
+
+    public void removeKamikase( String code) {
+        pets.removeKamikase(code);
+    }
+
 }//fin service

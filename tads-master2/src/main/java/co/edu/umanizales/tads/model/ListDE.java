@@ -287,4 +287,36 @@ public class ListDE {
         }
     }// fin ordenar por la inicial del nombre
 
+
+    /*
+    metodo para eliminar kamikase...
+   1.  decidimos con que parametro eliminaremos a la mascota en este caso por ID
+   2. recorremos la listaDE para buscar el ID
+   3. cuando este en la mascota que quiero eliminar
+   4. le decimos a nuestro ayudante que se mueva hacia el previo
+   y coja como siguiente al siguiente de la mascota que queiro eliminar
+   5. luego le decimos al ayudante que se mueva al siguiente de la mascota que queremos eliminar
+   y le decimos que coja como previo al anterior de la mascota.
+     */
+    public void removeKamikase(String id) {
+        if (head != null) {
+            NodeDE temp = head;
+            if (head.getData().getId().equals(id)) {
+                head = head.getNext();
+            } else {
+                while (!temp.getData().getId().equals(id)) {
+                    temp = temp.getNext();
+                }
+                if (temp.getNext() != null) {
+                    temp.getPrevious().setNext(temp.getNext());
+                    temp.getNext().setPrevious(temp.getPrevious());
+                } else {
+                    temp.getPrevious().setNext(null);
+                }
+            }
+        }
+        size--;
+    }//fin eliminar kamikase
+
+
 }//fin listDE

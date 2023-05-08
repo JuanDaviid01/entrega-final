@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class ReportKidsLocationGenderDTO {
+public class ReportPetsLocationGenderDTO {
     private List<LocationGenderQuantityDTO> locationGenderQuantityDTOS;
 
-    public ReportKidsLocationGenderDTO(List<Location> cities) {
+    public ReportPetsLocationGenderDTO(List<Location> cities) {
         locationGenderQuantityDTOS = new ArrayList<>();
         for (Location location : cities) {
             locationGenderQuantityDTOS.add(new
