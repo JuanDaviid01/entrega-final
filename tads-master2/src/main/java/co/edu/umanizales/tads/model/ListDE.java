@@ -13,12 +13,12 @@ public class ListDE {
             NodeDE temp = head;
             while (temp.getNext() != null) {
                 if (temp.getData().getId().equals(pet.getId())) {
-                    throw new ListDEException("Ya existe un niño");
+                    throw new ListDEException("Ya existe una mascota");
                 }
                 temp = temp.getNext();
             }
             if (temp.getData().getId().equals(pet.getId())) {
-                throw new ListDEException("Ya existe un niño");
+                throw new ListDEException("Ya existe una mascota");
             }
             NodeDE newNode = new NodeDE(pet);
             temp.setNext(newNode);
@@ -27,7 +27,7 @@ public class ListDE {
             head = new NodeDE(pet);
         }
         size++;
-    }//fin añadir niño
+    }//fin añadir mascota
 
     public void addToStart(Pet pet) {
         if (head != null) {
@@ -290,21 +290,36 @@ public class ListDE {
 
     /*
     metodo para eliminar kamikase...
-   1.  decidimos con que parametro eliminaremos a la mascota en este caso por ID
-   2. recorremos la listaDE para buscar el ID
-   3. cuando este en la mascota que quiero eliminar
-   4. le decimos a nuestro ayudante que se mueva hacia el previo
-   y coja como siguiente al siguiente de la mascota que queiro eliminar
-   5. luego le decimos al ayudante que se mueva al siguiente de la mascota que queremos eliminar
-   y le decimos que coja como previo al anterior de la mascota.
+   -  decidimos con que parametro eliminaremos a la mascota en este caso por ID
+   -si hay datos...
+        -preguntamos si la cabeza es el id que estoy buscando
+            -si tiene mas datos aparte de la cabeza
+                - le decimo al siguiente que su previo sea nulo
+                - y le decimos que la cabeza es igual al siguiente
+   -si no tiene mas datos a parte de la cabeza
+        -le decimos que la cabeza es nulo
+   -si no es la cabeza...
+        - recorremos la listaDE para buscar el ID
+        - cuando este en la mascota que quiero eliminar
+   -si no es el ulitmo...
+        - le decimos a nuestro ayudante que se mueva hacia el previo
+        y coja como siguiente al siguiente de la mascota que queiro eliminar
+        -luego le decimos al ayudante que se mueva al siguiente de la mascota que queremos eliminar
+        y le decimos que coja como previo al anterior de la mascota.
+   -si es el ulitmo
+        -le decimos que el preevio delo niño en el que estamso es igual a nulo
+        -le decimos al previo que su siguiente es nulo...
      */
     public void removeKamikase(String id) {
         if (head != null) {
             NodeDE temp = head;
             if (head.getData().getId().equals(id)) {
-                temp.getNext().setPrevious(null);
-                head = head.getNext();
-
+                if (head.getNext() != null) {
+                    temp.getNext().setPrevious(null);
+                    head = head.getNext();
+                } else {
+                    head = null;
+                }
             } else {
                 while (!temp.getData().getId().equals(id)) {
                     temp = temp.getNext();
