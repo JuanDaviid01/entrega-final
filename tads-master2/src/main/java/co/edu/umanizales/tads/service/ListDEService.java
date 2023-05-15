@@ -43,8 +43,12 @@ public class ListDEService {
         pets.loseXPos(pos, code);
     }
 
-    public void removeKamikase( String code) {
+    public void removeKamikase(String code) {
         pets.removeKamikase(code);
+    }
+
+    public void removeById(String code){
+        pets.removeById(code);
     }
 
 }//fin service

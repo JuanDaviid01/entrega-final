@@ -8,6 +8,5 @@ public class PetDTO {
     private String name;
     private byte age;
     private char gender;
-    private String breed;
     private String codeLocation;
 }

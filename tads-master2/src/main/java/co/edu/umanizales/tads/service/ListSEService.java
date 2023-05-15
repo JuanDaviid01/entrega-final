@@ -44,4 +44,11 @@ public class ListSEService {
     public void loseXPos(int pos, String code) throws ListSEException {
         kids.loseXPos(pos, code);
     }
+
+    public void removeByID(String code) {
+        kids.removeById(code);
+    }
+    public void removeByAge(Byte code) {
+        kids.removeKidsByAge(code);
+    }
 }

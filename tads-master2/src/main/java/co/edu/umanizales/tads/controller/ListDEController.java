@@ -24,7 +24,8 @@ public class ListDEController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO> getPets() {
-        return new ResponseEntity<>(new ResponseDTO(200, listDEService.getPets(), null), HttpStatus.OK);
+
+        return new ResponseEntity<>(new ResponseDTO(200, listDEService.getPets().getPets(), null), HttpStatus.OK);
     }
 
     @PostMapping
@@ -34,13 +35,13 @@ public class ListDEController {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
         if (!listDEService.getPets().searchById(petDTO.getId())) {
-            listDEService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), petDTO.getBreed(), location));
+            listDEService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), location));
+
             return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado la mascota", null), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
         }
     }
-
 
     @GetMapping(path = "/invert_extremes")
     public ResponseEntity<ResponseDTO> invertExtremes() {
@@ -125,5 +126,10 @@ public class ListDEController {
         return new ResponseEntity<>(new ResponseDTO(200, "se elimino la mascota", null), HttpStatus.OK);
     }
 
+    @GetMapping("/remove_by_id/{code}")
+    public ResponseEntity<ResponseDTO> removeById(@PathVariable String code) {
+        listDEService.removeById(code);
+        return new ResponseEntity<>(new ResponseDTO(200, "se elimino la mascota", null), HttpStatus.OK);
+    }
 
 }//fin controller

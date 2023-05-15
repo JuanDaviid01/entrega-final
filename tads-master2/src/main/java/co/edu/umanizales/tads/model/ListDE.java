@@ -3,10 +3,25 @@ package co.edu.umanizales.tads.model;
 import co.edu.umanizales.tads.exception.ListDEException;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class ListDE {
     private NodeDE head;
     int size;
+
+    public List<Pet> getPets() {
+        List<Pet> pets = new ArrayList<>();
+        NodeDE temp = head;
+        if (head != null) {
+            while (temp != null) {
+                pets.add(temp.getData());
+                temp = temp.getNext();
+            }
+        }
+        return pets;
+    }//fin listar mascotas
 
     public void add(Pet pet) throws ListDEException {
         if (head != null) {
@@ -64,11 +79,20 @@ public class ListDE {
             if (head.getData().getId().equals(id)) {
                 head = head.getNext();
             } else {
-                while (!temp.getNext().getData().getId().equals(id)) {
-                    temp = temp.getNext();
+                while (temp != null) {
+                    while (!temp.getData().getId().equals(id)) {
+                        temp = temp.getNext();
+                    }
+                    if (temp.getNext() != null) {
+                        temp.getPrevious().setNext(temp.getNext());
+                        temp.getNext().setPrevious(temp.getPrevious());
+                    } else {
+                        temp.getPrevious().setNext(null);
+                        temp.setPrevious(null);
+                    }
                 }
-                temp.setNext(temp.getNext().getNext());
             }
+
         }
         size--;
     }//fin eliminar por ID
@@ -93,7 +117,7 @@ public class ListDE {
     }//fin buscar por id
 
     public void invertExtremes() {
-        if (head != null && this.head.getNext() != null) {
+        if (head != null && head.getNext() != null) {
             NodeDE temp = head;
             while (temp.getNext() != null) {
                 temp = temp.getNext();
@@ -287,7 +311,6 @@ public class ListDE {
         }
     }// fin ordenar por la inicial del nombre
 
-
     /*
     metodo para eliminar kamikase...
    -  decidimos con que parametro eliminaremos a la mascota en este caso por ID
@@ -303,11 +326,11 @@ public class ListDE {
         - cuando este en la mascota que quiero eliminar
    -si no es el ulitmo...
         - le decimos a nuestro ayudante que se mueva hacia el previo
-        y coja como siguiente al siguiente de la mascota que queiro eliminar
+        y coja como siguiente al siguiente de la mascota que quiero eliminar
         -luego le decimos al ayudante que se mueva al siguiente de la mascota que queremos eliminar
         y le decimos que coja como previo al anterior de la mascota.
    -si es el ulitmo
-        -le decimos que el preevio delo niño en el que estamso es igual a nulo
+        -le decimos que el previo del niño en el que estamos es igual a nulo
         -le decimos al previo que su siguiente es nulo...
      */
     public void removeKamikase(String id) {
@@ -321,20 +344,29 @@ public class ListDE {
                     head = null;
                 }
             } else {
-                while (!temp.getData().getId().equals(id)) {
-                    temp = temp.getNext();
-                }
-                if (temp.getNext() != null) {
-                    temp.getPrevious().setNext(temp.getNext());
-                    temp.getNext().setPrevious(temp.getPrevious());
-                } else {
-                    temp.getPrevious().setNext(null);
-                    temp.setPrevious(null);
+                while (temp != null) {
+                    while (!temp.getData().getId().equals(id)) {
+                        temp = temp.getNext();
+                    }
+                    if (temp.getNext() != null) {
+                        temp.getPrevious().setNext(temp.getNext());
+                        temp.getNext().setPrevious(temp.getPrevious());
+                    } else {
+                        temp.getPrevious().setNext(null);
+                        temp.setPrevious(null);
+                    }
                 }
             }
         }
         size--;
     }//fin eliminar kamikase
-
-
 }//fin listDE
+
+/*
+hacer lista deoble enlzada circualr
+hacer añadir
+añadir al incio
+añadir por pos
+bañar perro con un numero de posiciones aleatorio(random)
+    cantidad minima: la cantidad de perros le digo a que direccion gira
+ */

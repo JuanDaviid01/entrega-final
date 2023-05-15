@@ -44,7 +44,6 @@ public class ListSEController {
         }
     }
 
-
     @GetMapping(path = "/invert_extremes")
     public ResponseEntity<ResponseDTO> invertExtremes() {
         listSEService.getKids().invertExtremes();
@@ -83,8 +82,14 @@ public class ListSEController {
 
     @GetMapping(path = "/remove_kid_by_age/{age}")
     public ResponseEntity<ResponseDTO> removeKidByAge(@PathVariable byte age) {
-        listSEService.getKids().removeKidsByAge(age);
+        listSEService.removeByAge(age);
         return new ResponseEntity<>(new ResponseDTO(200, "Se han eliminado a los niños con esa edad", null), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/remove_kid_by_id/{code}")
+    public ResponseEntity<ResponseDTO> removeKidById(@PathVariable String code) {
+        listSEService.removeByID(code);
+        return new ResponseEntity<>(new ResponseDTO(200, "Se han eliminado al niño", null), HttpStatus.OK);
     }
 
     @GetMapping(path = "/prom_ages")
