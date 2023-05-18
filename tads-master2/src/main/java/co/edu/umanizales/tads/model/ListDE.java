@@ -131,7 +131,7 @@ public class ListDE {
             }
             head = listCp.getHead();
         }
-    }//fin ordenar primero los niños
+    }//fin ordenar primero los machos
 
     public void orderMalesAndFemales() throws ListDEException {
         if (head != null) {
@@ -161,8 +161,7 @@ public class ListDE {
             }
             head = listCopFinal.getHead();
         }//if null
-    }//fin intercalar niño niña
-
+    }//fin intercalar macho hembra
     public float promAgePets() {
         float prom = 0;
         if (head != null) {
@@ -191,7 +190,7 @@ public class ListDE {
             }
         }
         return count;
-    }//fin cantidad de niños por ciudad
+    }//fin cantidad de mascotas por ciudad
 
     public int getCountPetsInDepartmentsByLocationCode(String code) {
         int count = 0;
@@ -205,7 +204,7 @@ public class ListDE {
             }
         }
         return count;
-    }//fin cantidad de niños por departamento
+    }//fin cantidad de mascotas por departamento
 
     public void removeKamikase(String id) {
         if (head != null) {
@@ -235,14 +234,10 @@ public class ListDE {
         size--;
     }//fin eliminar kamikase
 
-
-
-    //no hacen nada ---------------------------------------------------------------
-
     /*
 metodo para eliminar por edad..
 -si hay datos...
-     -preguntamos si la cabeza es el edad que estoy buscando
+     -preguntamos si la cabeza tiene la edad que estoy buscando
      -si tiene mas datos aparte de la cabeza
          - le decimos al siguiente que su previo sea nulo
          - y le decimos que la cabeza es igual al siguiente
@@ -284,12 +279,29 @@ y le decimos que coja como previo al anterior de la mascota.
                             size--;
                         }
                     }
-                    temp = temp.getNext();
                 }
+                temp = temp.getNext();
             }
         }
     }//eliminar por la edad
-    
+
+    public void orderByNameAtTheEnd(String letter) throws ListDEException {
+        ListDE orderListDE = new ListDE();
+        if (head != null) {
+            NodeDE temp = head;
+            while (temp != null) {
+                if (temp.getData().getName().startsWith(letter)) {
+                    orderListDE.add(temp.getData());
+                    temp = temp.getNext();
+                } else {
+                    orderListDE.addToStart(temp.getData());
+                    temp = temp.getNext();
+                }
+            }
+            head = orderListDE.getHead();
+        }
+    }// fin ordenar por la inicial del nombre
+
     public void advanceXPos(int pos, String code) throws ListDEException {
         NodeDE temp = head;
         int posList = 1;
@@ -333,19 +345,5 @@ y le decimos que coja como previo al anterior de la mascota.
         }//fin if headNull
         this.head = listcop.getHead();
     }//fin perder posiciones
-
-    public void orderByNameAtTheEnd(String letter) throws ListDEException {
-        ListDE orderListDE = new ListDE();
-        if (head != null) {
-            NodeDE temp = head;
-            while (temp.getData() != null) {
-                if (temp.getData().getName().startsWith(letter)) {
-                    orderListDE.add(temp.getData());
-                } else {
-                    orderListDE.addToStart(temp.getData());
-                }
-            }
-        }
-    }// fin ordenar por la inicial del nombre
 
 }//fin listDE

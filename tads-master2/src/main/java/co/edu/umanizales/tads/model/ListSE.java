@@ -221,49 +221,92 @@ public class ListSE {
         }
     }//fin reporte por ciudad por genero
 
-    //buenos--------------------------------------------------------------------------------
+    public void orderByNameAtTheEnd(String letter) throws ListSEException {
+        ListSE orderListSE = new ListSE();
+        if (head != null) {
+            Node temp = head;
+            while (temp != null) {
+                if (temp.getData().getName().startsWith(letter)) {
+                    orderListSE.add(temp.getData());
+                } else {
+                    orderListSE.addToStart(temp.getData());
+                }
+                temp = temp.getNext();
+            }
+            head = orderListSE.getHead();
+        }
+    }// fin ordenar por la inicial del nombre
 
-
-    //no hacen nada---------------------------------------------------------------------------
     public void removeKidsByAge(Byte ageI) {
         if (head != null) {
             Node temp = head;
             while (temp.getNext() != null) {
                 if (head.getData().getAge() == ageI) {
-                    head = head.getNext();
-                    size--;
-                } else {
-                    if (temp.getNext().getData().getAge() != ageI) {
-                        temp.setNext(temp.getNext().getNext());
+                    if (head.getNext() != null) {
+                        head = head.getNext();
+                        size--;
+                    } else {
+                        head = null;
                         size--;
                     }
+                } else {
+                    if (temp.getNext().getData().getAge() == ageI) {
+                        temp.setNext(temp.getNext().getNext());
+                        size--;
+                    } else {
+                        temp = temp.getNext();
+                    }
                 }
-                temp = temp.getNext();
             }
         }
     }//fin eliminar por ID
 
+    /*
+    -si hay datos
+        -si la cabeza es el niño que estoy buscando
+            -no podemos avanzar las posiciones
+        -si no
+            -llamamos a un ayudante para recorrer la lista
+            -creamos una copia de la lista
+            -recorremosla lista hasta el ultimo
+                -si el niño en el que estamos no es el que buscamos
+                    -vamos contando el numero de posiciones
+                    - agragamos a los niños en la lista copia
+            -cuando encontremos
+                -lo copiamos
+                -si la cantidad de niños contados es mayor que la posicion que nos dieron
+                    -  lo añadimos por posicion
+                        -con la cantidad de niños que contamos menos la posicion que nos dieron
+                -si no
+                    -no se pueden avanzar las posiciones
+            -al resto de los niños los agregamos al final de la lista copia
+     */
     public void advanceXPos(int pos, String code) throws ListSEException {
-        Node temp = head;
-        int posList = 1;
-        ListSE listcop = new ListSE();
         if (head != null) {
-            while (temp.getNext() != null) {
-                if (!temp.getData().getId().equals(code)) {
-                    listcop.add(temp.getData());
-                    temp = temp.getNext();
-                    posList = posList + 1;
-                } else {
-                    listcop.addToStart(temp.getData());
-                    Kid kidCop = listcop.getHead().getData();
-                    listcop.head = listcop.getHead().getNext();
-                    int posFinal = posList - pos;
-                    temp = temp.getNext();
-                    listcop.addxPos(kidCop, posFinal);
-                }//fin else
-            }//fin while
+            Node temp = head;
+            ListSE listSECop = new ListSE();
+            if (head.getData().getId().equals(code) || size < pos) {
+                throw new ListSEException("no puede avanzar las posiciones");
+            } else {
+                int positions = 1;
+                while (temp.getNext() != null) {
+                    if (!temp.getData().getId().equals(code)) {
+                        listSECop.add(temp.getData());
+                        temp = temp.getNext();
+                        positions++;
+                    } else {
+                        Kid kidCop = temp.getData();
+                        if (positions < pos) {
+                            listSECop.addxPos(kidCop, positions - pos);
+                        } else {
+                            throw new ListSEException("no puede avanzar las posiciones");
+                        }
+                        temp = temp.getNext();
+                    }
+                }
+            }
+            head = listSECop.getHead();
         }//fin if headNull
-        head = listcop.getHead();
     }//fin avanzar posiciones
 
     public void loseXPos(int pos, String code) throws ListSEException {
@@ -282,26 +325,10 @@ public class ListSE {
                     listcop.head = listcop.getHead().getNext();
                     int posFinal = posList + pos;
                     listcop.addxPos(kidCop, posFinal);
+                    temp = temp.getNext();
                 }//fin else
             }//fin while
         }//fin if headNull
-        this.head = listcop.getHead();
+        head = listcop.getHead();
     }//fin perder posiciones
-
-    public void orderByNameAtTheEnd(String letter) throws ListSEException {
-        ListSE orderListSE = new ListSE();
-        if (head != null) {
-            Node temp = head;
-            while (temp != null) {
-                if (temp.getData().getName().startsWith(letter)) {
-                    orderListSE.add(temp.getData());
-                } else {
-                    orderListSE.addToStart(temp.getData());
-                }
-                temp = temp.getNext();
-            }
-        }
-    }// fin ordenar por la inicial del nombre
-
-
 }//fin listSE
