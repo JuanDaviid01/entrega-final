@@ -108,10 +108,11 @@ public class ListSE {
         ListSE invertListSE = new ListSE();
         if (head != null) {
             Node temp = head;
-            while (temp.getData() != null) {
+            while (temp != null) {
                 invertListSE.addToStart(temp.getData());
-                temp.getNext();
+                temp = temp.getNext();
             }
+            head = invertListSE.getHead();
         }
     }// fin invertir la lista
 
@@ -162,22 +163,6 @@ public class ListSE {
         }//if null
     }//fin intercalar niño niña
 
-    public void removeKidsByAge(Byte ageI) {
-        if (head != null) {
-            Node temp = head;
-            if (head.getData().getAge() == ageI) {
-                head = head.getNext();
-            } else {
-                while (temp.getNext() != null) {
-                    while (temp.getNext().getData().getAge() != ageI) {
-                        temp = temp.getNext();
-                    }//fin while nextAge
-                    temp.setNext(temp.getNext().getNext());
-                }//else if
-            }//fin while data null
-        }// if null
-    }//eliminar niños por la edad
-
     public float promAgeKids() {
         float prom = 0;
         if (head != null) {
@@ -193,50 +178,6 @@ public class ListSE {
         }//fin if
         return prom;
     }// fin promedio de edad
-
-    public void advanceXPos(int pos, String code) throws ListSEException {
-        Node temp = this.head;
-        int posList = 1;
-        ListSE listcop = new ListSE();
-        if (head != null) {
-            while (temp != null) {
-                if (!temp.getData().getId().equalsIgnoreCase(code)) {
-                    listcop.add(temp.getData());
-                    temp = temp.getNext();
-                    posList = posList + 1;
-                } else {
-                    listcop.addToStart(temp.getData());
-                    Kid kidCop = listcop.getHead().getData();
-                    listcop.head = listcop.getHead().getNext();
-                    int posFinal = posList - pos;
-                    listcop.addxPos(kidCop, posFinal);
-                }//fin else
-            }//fin while
-        }//fin if headNull
-        this.head = listcop.getHead();
-    }//fin avanzar posiciones
-
-    public void loseXPos(int pos, String code) throws ListSEException {
-        Node temp = this.head;
-        int posList = 1;
-        ListSE listcop = new ListSE();
-        if (head != null) {
-            while (temp != null) {
-                if (!temp.getData().getId().equalsIgnoreCase(code)) {
-                    listcop.add(temp.getData());
-                    temp = temp.getNext();
-                    posList = posList + 1;
-                } else {
-                    listcop.addToStart(temp.getData());
-                    Kid kidCop = listcop.getHead().getData();
-                    listcop.head = listcop.getHead().getNext();
-                    int posFinal = posList + pos;
-                    listcop.addxPos(kidCop, posFinal);
-                }//fin else
-            }//fin while
-        }//fin if headNull
-        this.head = listcop.getHead();
-    }//fin perder posiciones
 
     public int getCountKidsInCitiesByLocationCode(String code) {
         int count = 0;
@@ -266,20 +207,6 @@ public class ListSE {
         return count;
     }//fin cantidad de niños por departamento
 
-    public void orderByNameAtTheEnd(String letter) throws ListSEException {
-        ListSE orderListSE = new ListSE();
-        if (head != null) {
-            Node temp = head;
-            while (temp.getData() != null) {
-                if (temp.getData().getName().startsWith(letter)) {
-                    orderListSE.add(temp.getData());
-                } else {
-                    orderListSE.addToStart(temp.getData());
-                }
-            }
-        }
-    }// fin ordenar por la inicial del nombre
-
     public void getReportKidsByLocationGendersByAge(byte age, ReportKidsLocationGenderDTO report) {
         if (head != null) {
             Node temp = this.head;
@@ -294,7 +221,87 @@ public class ListSE {
         }
     }//fin reporte por ciudad por genero
 
+    //buenos--------------------------------------------------------------------------------
+
+
+    //no hacen nada---------------------------------------------------------------------------
+    public void removeKidsByAge(Byte ageI) {
+        if (head != null) {
+            Node temp = head;
+            while (temp.getNext() != null) {
+                if (head.getData().getAge() == ageI) {
+                    head = head.getNext();
+                    size--;
+                } else {
+                    if (temp.getNext().getData().getAge() != ageI) {
+                        temp.setNext(temp.getNext().getNext());
+                        size--;
+                    }
+                }
+                temp = temp.getNext();
+            }
+        }
+    }//fin eliminar por ID
+
+    public void advanceXPos(int pos, String code) throws ListSEException {
+        Node temp = head;
+        int posList = 1;
+        ListSE listcop = new ListSE();
+        if (head != null) {
+            while (temp.getNext() != null) {
+                if (!temp.getData().getId().equals(code)) {
+                    listcop.add(temp.getData());
+                    temp = temp.getNext();
+                    posList = posList + 1;
+                } else {
+                    listcop.addToStart(temp.getData());
+                    Kid kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList - pos;
+                    temp = temp.getNext();
+                    listcop.addxPos(kidCop, posFinal);
+                }//fin else
+            }//fin while
+        }//fin if headNull
+        head = listcop.getHead();
+    }//fin avanzar posiciones
+
+    public void loseXPos(int pos, String code) throws ListSEException {
+        Node temp = this.head;
+        int posList = 1;
+        ListSE listcop = new ListSE();
+        if (head != null) {
+            while (temp != null) {
+                if (!temp.getData().getId().equalsIgnoreCase(code)) {
+                    listcop.add(temp.getData());
+                    temp = temp.getNext();
+                    posList = posList + 1;
+                } else {
+                    listcop.addToStart(temp.getData());
+                    Kid kidCop = listcop.getHead().getData();
+                    listcop.head = listcop.getHead().getNext();
+                    int posFinal = posList + pos;
+                    listcop.addxPos(kidCop, posFinal);
+                }//fin else
+            }//fin while
+        }//fin if headNull
+        this.head = listcop.getHead();
+    }//fin perder posiciones
+
+    public void orderByNameAtTheEnd(String letter) throws ListSEException {
+        ListSE orderListSE = new ListSE();
+        if (head != null) {
+            Node temp = head;
+            while (temp != null) {
+                if (temp.getData().getName().startsWith(letter)) {
+                    orderListSE.add(temp.getData());
+                } else {
+                    orderListSE.addToStart(temp.getData());
+                }
+                temp = temp.getNext();
+            }
+        }
+    }// fin ordenar por la inicial del nombre
+
+
 }//fin listSE
-/*
-9. Obtener un informe de niños por rango de edades
- */

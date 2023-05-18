@@ -47,8 +47,4 @@ public class ListDEService {
         pets.removeKamikase(code);
     }
 
-    public void removeById(String code){
-        pets.removeById(code);
-    }
-
 }//fin service

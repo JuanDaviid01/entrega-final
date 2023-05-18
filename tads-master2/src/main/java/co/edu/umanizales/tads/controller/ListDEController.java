@@ -24,7 +24,6 @@ public class ListDEController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO> getPets() {
-
         return new ResponseEntity<>(new ResponseDTO(200, listDEService.getPets().getPets(), null), HttpStatus.OK);
     }
 
@@ -126,10 +125,5 @@ public class ListDEController {
         return new ResponseEntity<>(new ResponseDTO(200, "se elimino la mascota", null), HttpStatus.OK);
     }
 
-    @GetMapping("/remove_by_id/{code}")
-    public ResponseEntity<ResponseDTO> removeById(@PathVariable String code) {
-        listDEService.removeById(code);
-        return new ResponseEntity<>(new ResponseDTO(200, "se elimino la mascota", null), HttpStatus.OK);
-    }
 
 }//fin controller

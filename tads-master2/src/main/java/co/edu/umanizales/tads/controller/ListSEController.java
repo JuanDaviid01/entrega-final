@@ -43,6 +43,19 @@ public class ListSEController {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
         }
     }
+    @PostMapping(path = "add_to_start")
+    public ResponseEntity<ResponseDTO> addToStartKid(@RequestBody KidDTO kidDTO)  {
+        Location location = locationService.getLocationByCode(kidDTO.getCodeLocation());
+        if (location == null) {
+            return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
+        }
+        if (!listSEService.getKids().searchById(kidDTO.getId())) {
+            listSEService.getKids().addToStart(new Kid(kidDTO.getId(), kidDTO.getName(), kidDTO.getAge(), kidDTO.getGender(), location));
+            return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado al petacón", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
+        }
+    }
 
     @GetMapping(path = "/invert_extremes")
     public ResponseEntity<ResponseDTO> invertExtremes() {
