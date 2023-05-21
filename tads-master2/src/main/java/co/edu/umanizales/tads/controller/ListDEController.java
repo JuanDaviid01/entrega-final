@@ -29,7 +29,7 @@ public class ListDEController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> addKid(@RequestBody PetDTO petDTO) throws ListDEException {
+    public ResponseEntity<ResponseDTO> addPet(@RequestBody PetDTO petDTO) {
         Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
@@ -44,7 +44,7 @@ public class ListDEController {
     }
 
     @PostMapping(path = "/add_to_start")
-    public ResponseEntity<ResponseDTO> addToPetStart(@RequestBody PetDTO petDTO)  {
+    public ResponseEntity<ResponseDTO> addToPetStart(@RequestBody PetDTO petDTO) {
         Location location = locationService.getLocationByCode(petDTO.getCodeLocation());
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
@@ -56,6 +56,7 @@ public class ListDEController {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
         }
     }
+
     @GetMapping(path = "/invert_extremes")
     public ResponseEntity<ResponseDTO> invertExtremes() {
         listDEService.getPets().invertExtremes();

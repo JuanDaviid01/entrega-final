@@ -9,19 +9,12 @@ public class ListSE {
     private Node head;
     private int size;
 
-    public void add(Kid kid) throws ListSEException {
+    public void add(Kid kid) {
         if (head != null) {
             Node temp = head;
             while (temp.getNext() != null) {
-                if (temp.getData().getId().equals(kid.getId())) {
-                    throw new ListSEException("Ya existe un niño");
-                }
                 temp = temp.getNext();
             }
-            if (temp.getData().getId().equals(kid.getId())) {
-                throw new ListSEException("Ya existe un niño");
-            }
-            /// Parado en el último
             Node newNode = new Node(kid);
             temp.setNext(newNode);
         } else {
@@ -116,7 +109,7 @@ public class ListSE {
         }
     }// fin invertir la lista
 
-    public void orderBoysToStart() throws ListSEException {
+    public void orderBoysToStart()  {
         if (head != null) {
             ListSE listCp = new ListSE();
             Node temp = head;
@@ -133,7 +126,7 @@ public class ListSE {
         }
     }//fin ordenar primero los niños
 
-    public void orderBoysAndGirls() throws ListSEException {
+    public void orderBoysAndGirls() {
         if (head != null) {
             ListSE listCopGirls = new ListSE();
             ListSE listCopboys = new ListSE();
@@ -221,7 +214,7 @@ public class ListSE {
         }
     }//fin reporte por ciudad por genero
 
-    public void orderByNameAtTheEnd(String letter) throws ListSEException {
+    public void orderByNameAtTheEnd(String letter)  {
         ListSE orderListSE = new ListSE();
         if (head != null) {
             Node temp = head;
@@ -295,13 +288,16 @@ public class ListSE {
                         temp = temp.getNext();
                         positions++;
                     } else {
-                        Kid kidCop = temp.getData();
                         if (positions < pos) {
-                            listSECop.addxPos(kidCop, positions - pos);
+                            listSECop.addToStart(temp.getData());
+                            Kid kidCop = temp.getData();
+                            listSECop.setHead(listSECop.getHead().getNext());
+                            int posfin = positions - pos;
+                            listSECop.addxPos(kidCop, posfin);
+                            temp = temp.getNext();
                         } else {
                             throw new ListSEException("no puede avanzar las posiciones");
                         }
-                        temp = temp.getNext();
                     }
                 }
             }
@@ -310,25 +306,29 @@ public class ListSE {
     }//fin avanzar posiciones
 
     public void loseXPos(int pos, String code) throws ListSEException {
-        Node temp = this.head;
-        int posList = 1;
-        ListSE listcop = new ListSE();
         if (head != null) {
-            while (temp != null) {
-                if (!temp.getData().getId().equalsIgnoreCase(code)) {
-                    listcop.add(temp.getData());
-                    temp = temp.getNext();
-                    posList = posList + 1;
-                } else {
-                    listcop.addToStart(temp.getData());
-                    Kid kidCop = listcop.getHead().getData();
-                    listcop.head = listcop.getHead().getNext();
-                    int posFinal = posList + pos;
-                    listcop.addxPos(kidCop, posFinal);
-                    temp = temp.getNext();
-                }//fin else
-            }//fin while
+            Node temp = head;
+            ListSE listSECop = new ListSE();
+            if (head.getData().getId().equals(code) || size < pos) {
+                throw new ListSEException("no puede perder las posiciones");
+            } else {
+                int positions = 1;
+                while (temp.getNext() != null) {
+                    if (!temp.getData().getId().equals(code)) {
+                        listSECop.add(temp.getData());
+                        temp = temp.getNext();
+                        positions++;
+                    } else {
+                        listSECop.addToStart(temp.getData());
+                        Kid kidCop = temp.getData();
+                        listSECop.setHead(listSECop.getHead().getNext());
+                        int posfin = positions + pos;
+                        listSECop.addxPos(kidCop, posfin);
+                        temp = temp.getNext();
+                    }
+                }
+            }
+            head = listSECop.getHead();
         }//fin if headNull
-        head = listcop.getHead();
     }//fin perder posiciones
 }//fin listSE

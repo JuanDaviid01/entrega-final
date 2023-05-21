@@ -23,17 +23,11 @@ public class ListDE {
         return pets;
     }//fin listar mascotas
 
-    public void add(Pet pet) throws ListDEException {
+    public void add(Pet pet)  {
         if (head != null) {
             NodeDE temp = head;
             while (temp.getNext() != null) {
-                if (temp.getData().getId().equals(pet.getId())) {
-                    throw new ListDEException("Ya existe una mascota");
-                }
                 temp = temp.getNext();
-            }
-            if (temp.getData().getId().equals(pet.getId())) {
-                throw new ListDEException("Ya existe una mascota");
             }
             NodeDE newNode = new NodeDE(pet);
             temp.setNext(newNode);
@@ -314,10 +308,11 @@ y le decimos que coja como previo al anterior de la mascota.
                     posList = posList + 1;
                 } else {
                     listcop.addToStart(temp.getData());
-                    Pet kidCop = listcop.getHead().getData();
+                    Pet petCop = listcop.getHead().getData();
                     listcop.head = listcop.getHead().getNext();
                     int posFinal = posList - pos;
-                    listcop.addxPos(kidCop, posFinal);
+                    listcop.addxPos(petCop, posFinal);
+                    temp = temp.getNext();
                 }//fin else
             }//fin while
         }//fin if headNull
@@ -336,10 +331,11 @@ y le decimos que coja como previo al anterior de la mascota.
                     posList = posList + 1;
                 } else {
                     listcop.addToStart(temp.getData());
-                    Pet kidCop = listcop.getHead().getData();
+                    Pet petCop = listcop.getHead().getData();
                     listcop.head = listcop.getHead().getNext();
                     int posFinal = posList + pos;
-                    listcop.addxPos(kidCop, posFinal);
+                    listcop.addxPos(petCop, posFinal);
+                    temp = temp.getNext();
                 }//fin else
             }//fin while
         }//fin if headNull

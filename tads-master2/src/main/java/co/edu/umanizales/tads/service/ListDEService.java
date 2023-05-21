@@ -12,7 +12,6 @@ public class ListDEService {
 
     public ListDEService() {
         pets = new ListDE();
-
     }
 
     public void invert() {

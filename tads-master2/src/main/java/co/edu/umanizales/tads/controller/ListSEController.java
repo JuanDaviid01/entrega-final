@@ -31,7 +31,7 @@ public class ListSEController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> addKid(@RequestBody KidDTO kidDTO) throws ListSEException {
+    public ResponseEntity<ResponseDTO> addKid(@RequestBody KidDTO kidDTO) {
         Location location = locationService.getLocationByCode(kidDTO.getCodeLocation());
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
@@ -43,8 +43,9 @@ public class ListSEController {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
         }
     }
+
     @PostMapping(path = "/add_to_start")
-    public ResponseEntity<ResponseDTO> addToStartKid(@RequestBody KidDTO kidDTO)  {
+    public ResponseEntity<ResponseDTO> addToStartKid(@RequestBody KidDTO kidDTO) {
         Location location = locationService.getLocationByCode(kidDTO.getCodeLocation());
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
