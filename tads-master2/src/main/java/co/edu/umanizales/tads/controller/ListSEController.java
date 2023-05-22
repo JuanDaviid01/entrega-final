@@ -31,17 +31,13 @@ public class ListSEController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDTO> addKid(@RequestBody KidDTO kidDTO) {
+    public ResponseEntity<ResponseDTO> addKid(@RequestBody KidDTO kidDTO) throws ListSEException {
         Location location = locationService.getLocationByCode(kidDTO.getCodeLocation());
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
-        if (!listSEService.getKids().searchById(kidDTO.getId())) {
-            listSEService.getKids().add(new Kid(kidDTO.getId(), kidDTO.getName(), kidDTO.getAge(), kidDTO.getGender(), location));
-            return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado al petacón", null), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
-        }
+        listSEService.getKids().add(new Kid(kidDTO.getId(), kidDTO.getName(), kidDTO.getAge(), kidDTO.getGender(), location));
+        return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado al petacón", null), HttpStatus.OK);
     }
 
     @PostMapping(path = "/add_to_start")

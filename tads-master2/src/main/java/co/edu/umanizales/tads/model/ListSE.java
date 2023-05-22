@@ -9,11 +9,17 @@ public class ListSE {
     private Node head;
     private int size;
 
-    public void add(Kid kid) {
+    public void add(Kid kid) throws ListSEException {
         if (head != null) {
             Node temp = head;
             while (temp.getNext() != null) {
+                if (temp.getData().getId().equals(kid.getId())) {
+                    throw new ListSEException("Ya existe un niño");
+                }
                 temp = temp.getNext();
+            }
+            if (temp.getData().getId().equals(kid.getId())) {
+                throw new ListSEException("Ya existe un niño");
             }
             Node newNode = new Node(kid);
             temp.setNext(newNode);
@@ -109,7 +115,7 @@ public class ListSE {
         }
     }// fin invertir la lista
 
-    public void orderBoysToStart()  {
+    public void orderBoysToStart() throws ListSEException {
         if (head != null) {
             ListSE listCp = new ListSE();
             Node temp = head;
@@ -126,7 +132,7 @@ public class ListSE {
         }
     }//fin ordenar primero los niños
 
-    public void orderBoysAndGirls() {
+    public void orderBoysAndGirls() throws ListSEException {
         if (head != null) {
             ListSE listCopGirls = new ListSE();
             ListSE listCopboys = new ListSE();
@@ -214,7 +220,7 @@ public class ListSE {
         }
     }//fin reporte por ciudad por genero
 
-    public void orderByNameAtTheEnd(String letter)  {
+    public void orderByNameAtTheEnd(String letter) throws ListSEException {
         ListSE orderListSE = new ListSE();
         if (head != null) {
             Node temp = head;

@@ -23,11 +23,17 @@ public class ListDE {
         return pets;
     }//fin listar mascotas
 
-    public void add(Pet pet)  {
+    public void add(Pet pet) throws ListDEException {
         if (head != null) {
             NodeDE temp = head;
             while (temp.getNext() != null) {
+                if (temp.getData().getId().equals(pet.getId())) {
+                    throw new ListDEException("Ya existe una mascota");
+                }
                 temp = temp.getNext();
+            }
+            if (temp.getData().getId().equals(pet.getId())) {
+                throw new ListDEException("Ya existe una mascota");
             }
             NodeDE newNode = new NodeDE(pet);
             temp.setNext(newNode);
@@ -60,6 +66,8 @@ public class ListDE {
             }
             NodeDE newNode = new NodeDE(pet);
             newNode.setNext(temp.getNext());
+            newNode.setPrevious(temp);
+            temp.getNext().setPrevious(newNode);
             temp.setNext(newNode);
         } else {
             head = new NodeDE(pet);
@@ -156,6 +164,7 @@ public class ListDE {
             head = listCopFinal.getHead();
         }//if null
     }//fin intercalar macho hembra
+
     public float promAgePets() {
         float prom = 0;
         if (head != null) {
