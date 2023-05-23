@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Data
 public class ListDECircular {
@@ -89,7 +90,6 @@ public class ListDECircular {
         size++;
     }//fin añadir por posicion
 
-
     public Boolean searchById(String id) {
         Boolean finded = false;
         if (head != null) {
@@ -108,4 +108,38 @@ public class ListDECircular {
         }
         return finded;
     }//fin buscar por id
-}
+
+    public static int getRandom() {
+        Random randomNum = new Random();
+        int num = randomNum.nextInt(100);
+        return num;
+    }//fin numero aleatorio
+
+    public void takeShower() throws ListDEException {
+        int posRandom = getRandom();
+        int cont = 1;
+        if (head != null && size > 2) {
+            NodeDE temp = head;
+            if (posRandom > size) {
+                int positions = posRandom % size;
+                while (cont < positions) {
+                    temp = temp.getNext();
+                    cont++;
+                }
+            } else {
+                while (cont < posRandom) {
+                    temp = temp.getNext();
+                    cont++;
+                }
+            }
+            if (temp.getData().getClean() == true) {
+                throw new ListDEException("esa mascota ya esta bañada");
+            } else {
+                temp.getData().setClean(true);
+            }
+        } else {
+            throw new ListDEException("no hay suficientes datos para hacer el metodo");
+        }
+    }//fin bañar mascota
+
+}//fin lista

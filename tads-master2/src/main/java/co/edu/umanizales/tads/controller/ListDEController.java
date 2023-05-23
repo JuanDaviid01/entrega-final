@@ -2,7 +2,6 @@ package co.edu.umanizales.tads.controller;
 
 import co.edu.umanizales.tads.controller.dto.*;
 import co.edu.umanizales.tads.exception.ListDEException;
-import co.edu.umanizales.tads.model.Kid;
 import co.edu.umanizales.tads.model.Location;
 import co.edu.umanizales.tads.model.Pet;
 import co.edu.umanizales.tads.service.ListDEService;
@@ -34,7 +33,7 @@ public class ListDEController {
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
-        listDEService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), location));
+        listDEService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
         return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado la mascota", null), HttpStatus.OK);
     }
 
@@ -45,7 +44,7 @@ public class ListDEController {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
         if (!listDEService.getPets().searchById(petDTO.getId())) {
-            listDEService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), location));
+            listDEService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
             return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado a la mascota", null), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);

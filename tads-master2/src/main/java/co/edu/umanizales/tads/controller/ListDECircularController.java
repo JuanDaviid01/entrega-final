@@ -32,7 +32,7 @@ public class ListDECircularController {
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
-        listDECircularService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), location));
+        listDECircularService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
         return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado la mascota", null), HttpStatus.OK);
     }
 
@@ -43,10 +43,17 @@ public class ListDECircularController {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
         if (!listDECircularService.getPets().searchById(petDTO.getId())) {
-            listDECircularService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), location));
+            listDECircularService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
             return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado a la mascota", null), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
         }
+    }
+
+    @GetMapping(path = "/clean_pet")
+    public ResponseEntity<ResponseDTO> addToPetStart() throws ListDEException {
+        listDECircularService.cleanPet();
+        return new ResponseEntity<>(new ResponseDTO(200, "se baño a la mascota jejejejejej", null), HttpStatus.OK);
+
     }
 }
