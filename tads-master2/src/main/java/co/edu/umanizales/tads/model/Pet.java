@@ -12,6 +12,7 @@ public class Pet {
     private byte age;
     private char gender;
     private Boolean clean;
+    private Boolean fleas;
     private Location location;
 
 }//fin pet

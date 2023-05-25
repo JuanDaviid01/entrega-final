@@ -32,7 +32,7 @@ public class ListDECircularController {
         if (location == null) {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
-        listDECircularService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
+        listDECircularService.getPets().add(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, petDTO.getFleas(), location));
         return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado la mascota", null), HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class ListDECircularController {
             return new ResponseEntity<>(new ResponseDTO(404, "La ubicación no existe", null), HttpStatus.OK);
         }
         if (!listDECircularService.getPets().searchById(petDTO.getId())) {
-            listDECircularService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, location));
+            listDECircularService.getPets().addToStart(new Pet(petDTO.getId(), petDTO.getName(), petDTO.getAge(), petDTO.getGender(), false, petDTO.getFleas(), location));
             return new ResponseEntity<>(new ResponseDTO(200, "Se ha adicionado a la mascota", null), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(new ResponseDTO(200, "Ese codigo ya esta registrado", null), HttpStatus.OK);
@@ -51,9 +51,22 @@ public class ListDECircularController {
     }
 
     @GetMapping(path = "/clean_pet")
-    public ResponseEntity<ResponseDTO> addToPetStart() throws ListDEException {
-        listDECircularService.cleanPet();
-        return new ResponseEntity<>(new ResponseDTO(200, "se baño a la mascota jejejejejej", null), HttpStatus.OK);
-
+    public ResponseEntity<ResponseDTO> cleanPet() {
+        int success = listDECircularService.cleanPet();
+        if (success == 0) {
+            return new ResponseEntity<>(new ResponseDTO(200, "no se pueden bañar, no hay datos", null), HttpStatus.OK);
+        } else if (success == 1) {
+            return new ResponseEntity<>(new ResponseDTO(200, "se baño a la mascota jejejejejej", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ResponseDTO(200, "se baño la mascota y le puse shampoo  pa pulgas", null), HttpStatus.OK);
+        }
     }
+
+    @GetMapping(path = "/dirty_pet")
+    public ResponseEntity<ResponseDTO> dirtyPet() {
+        listDECircularService.dirtyPet();
+        return new ResponseEntity<>(new ResponseDTO(200, "se ensuciaron y su pusieron pulgosos ", null), HttpStatus.OK);
+    }
+
+
 }

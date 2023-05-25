@@ -115,7 +115,23 @@ public class ListDECircular {
         return num;
     }//fin numero aleatorio
 
-    public void takeShower() throws ListDEException {
+    public void dirtyPet() {
+        NodeDE temp = head;
+        if (head != null) {
+            while (true) {
+                temp.getData().setClean(false);
+                temp.getData().setFleas(true);
+                temp = temp.getNext();
+                if (temp == head) {
+                    break;
+                }
+            }
+        }
+    }//fin dirty
+
+
+    public int takeShower() {
+        int success = 0;
         int posRandom = getRandom();
         int cont = 1;
         if (head != null && size > 2) {
@@ -132,14 +148,21 @@ public class ListDECircular {
                     cont++;
                 }
             }
-            if (temp.getData().getClean() == true) {
-                throw new ListDEException("esa mascota ya esta bañada");
-            } else {
+            if (temp.getData().getClean()) {
+                return success; // no lo puede bañar
+            } else if (temp.getData().getFleas() && !temp.getData().getClean()) {
                 temp.getData().setClean(true);
-            }
+                temp.getData().setFleas(false);
+                success = 2;
+            } else {  // lo baña y le pone shampoo
+                temp.getData().setClean(true);
+                success = 1;
+            }//solo lo baña
         } else {
-            throw new ListDEException("no hay suficientes datos para hacer el metodo");
+            return success; //no se puede
         }
+        return success;
     }//fin bañar mascota
+
 
 }//fin lista
